@@ -25,4 +25,8 @@ echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
 dispatcher.add_handler(echo_handler)
 
 
+<<<<<<< HEAD
 updater.start_polling()
+=======
+updater.start_polling()
+>>>>>>> 43bc9ac39f5dee202b4c5d4f160f4c2f9a560339
