@@ -8,7 +8,7 @@ def guessnumber(update, context):
     global botsnumber
     global NumberOfGuesses
     if len(context.args) == 0:
-        update.message.reply_text(help())
+        update.message.reply_text(message)
     else:
         if (context.args[0]).isdigit():
             number = int(context.args[0])
