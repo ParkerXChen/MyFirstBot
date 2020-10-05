@@ -7,13 +7,6 @@ import guess
 def start(update, context):
     update.message.reply_text("HAHA WE STARTED")
 
-def message():
-    return """
-    You guessed a number from 0 - 100.
-/guessnumber Check your current status and get help.
-/guessnumber followed by a number 1-100 to guess that number.
-    """
-
 def read_file_as_str(file_path):
     # 判断路径文件存在
     if not os.path.isfile(file_path):
@@ -31,9 +24,6 @@ dispatcher = updater.dispatcher
 
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
-
-message_handler = CommandHandler('message', message)
-dispatcher.add_handler(message_handler)
 
 guess.add_handler(dispatcher)
 

@@ -4,6 +4,13 @@ import random
 Botsnumber = random.randint (1,100)
 NumberOfGuesses = 0
 
+def message():
+    return """
+    You guessed a number from 0 - 100.
+/guessnumber Check your current status and get help.
+/guessnumber followed by a number 1-100 to guess that number.
+    """
+
 def guessnumber(update, context):
     global botsnumber
     global NumberOfGuesses
