@@ -4,7 +4,7 @@ import random
 Botsnumber = random.randint (1,100)
 NumberOfGuesses = 0
 
-def message():
+def showhelp():
     return """
     You guessed a number from 0 - 100.
 /guessnumber Check your current status and get help.
@@ -15,7 +15,7 @@ def guessnumber(update, context):
     global botsnumber
     global NumberOfGuesses
     if len(context.args) == 0:
-        update.message.reply_text(message)
+        update.message.reply_text(showhelp())
     else:
         if (context.args[0]).isdigit():
             number = int(context.args[0])
