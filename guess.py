@@ -1,9 +1,7 @@
 from telegram.ext import Dispatcher,Updater,CommandHandler
 import random
 botsnumber = random.randint (1,100)
-NumberOfGuessesDic = {
-    
-}
+NumberOfGuessesDic = {}
 
 def showhelp():
     return """
