@@ -1,8 +1,9 @@
 from telegram.ext import Dispatcher,Updater,CommandHandler
 import random
-
-Botsnumber = random.randint (1,100)
-NumberOfGuesses = 0
+botsnumber = random.randint (1,100)
+NumberOfGuessesDic = {
+    
+}
 
 def showhelp():
     return """
@@ -13,30 +14,33 @@ def showhelp():
 
 def guessnumber(update, context):
     global botsnumber
-    global NumberOfGuesses
+    global NumberOfGuessesDic
+    
+    if not update.message.from_user.id in NumberOfGuessesDic:
+        NumberOfGuessesDic[update.message.from_user.id] = 0
+
     if len(context.args) == 0:
         update.message.reply_text(showhelp())
     else:
         if (context.args[0]).isdigit():
             number = int(context.args[0])
-            print (number)
-            print (botsnumber)
-            NumberOfGuesses += 1
+            NumberOfGuessesDic += 1
             if (number) == botsnumber:
-                update.message.reply_text("You guessed my number! It only took you %s tries!" %(NumberOfGuesses))
+                update.message.reply_text("You guessed my number! It only took you %s tries!" %(NumberOfGuessesDic[update.message.chat_id]))
                 print (botsnumber)
             else:
                 if number < botsnumber:
-                    update.message.reply_text("Nope! Too small! Try again!  Number of tries: %s" %(NumberOfGuesses))
+                    update.message.reply_text("Nope! Too small! Try again!  Number of tries: %s" %(NumberOfGuessesDic[update.message.chat_id]))
                 else:
-                    update.message.reply_text("Nope! Too big! Try again! Number of tries: %s" %(NumberOfGuesses))
+                    update.message.reply_text("Nope! Too big! Try again! Number of tries: %s" %(NumberOfGuessesDic[update.message.chat_id]))
         else: update.message.reply_text("Is that even a number?")
+
 
 def reset(update, context):
     global botsnumber
-    global NumberOfGuesses
+    global NumberOfGuessesDic
     botsnumber = random.randint (1,100)
-    NumberOfGuesses = 0
+    NumberOfGuessesDic[update.message.chat_id] = 0
     update.message.reply_text("RESET COMPLETE")
 
 def add_handler(dp:Dispatcher):
