@@ -1,7 +1,7 @@
 from telegram.ext import Dispatcher,Updater,CommandHandler
 import random
-botsnumber = random.randint (1,100)
-NumberOfGuessesDic = {}
+
+games = {}
 
 def showhelp():
     return """
@@ -11,33 +11,39 @@ def showhelp():
     """
 
 def guessnumber(update, context):
-    global botsnumber
-    global NumberOfGuessesDic
+    global games
+    chatid = update.message.chat.id
     
-    if not update.message.from_user.id in NumberOfGuessesDic:
-        NumberOfGuessesDic[update.message.from_user.id] = 0
+    if not (chatid) in games:
+        games[chatid] = {'botsnumber':random.randint(1,99), "member":{}}
+    print (games)
+    
+    if not update.message.from_user.id in games[chatid]:
+        games[chatid][update.message.from_user.id] = 0
 
     if len(context.args) == 0:
         update.message.reply_text(showhelp())
     else:
         if (context.args[0]).isdigit():
-            print (botsnumber)
+            print (games[chatid]['botsnumber'])
             number = int(context.args[0])
-            NumberOfGuessesDic[update.message.from_user.id] += 1
-            if number == botsnumber:
-                update.message.reply_text("You guessed my number! It only took you %s tries!" %(NumberOfGuessesDic[update.message.from_user.id]))
-            elif number < botsnumber: 
-                update.message.reply_text("Nope! Too small! Try again!  Number of tries: %s" %(NumberOfGuessesDic[update.message.from_user.id]))
+            games[chatid][update.message.from_user.id] += 1
+            if number == games[chatid]['botsnumber']:
+                update.message.reply_text("You guessed my number! It only took you %s tries!" %(games[chatid][update.message.from_user.id]))
+            elif number < games[chatid]['botsnumber']: 
+                update.message.reply_text("Nope! Too small! Try again!  Number of tries: %s" %(games[chatid][update.message.from_user.id]))
             else:
-                update.message.reply_text("Nope! Too big! Try again! Number of tries: %s" %(NumberOfGuessesDic[update.message.from_user.id]))
+                update.message.reply_text("Nope! Too big! Try again! Number of tries: %s" %(games[chatid][update.message.from_user.id]))
         else: update.message.reply_text("Is that even a number?")
 
 
 def reset(update, context):
-    global botsnumber
-    global NumberOfGuessesDic
+    global games
+
+    chatid = update.message.chat.id
+
     botsnumber = random.randint (1,100)
-    NumberOfGuessesDic.clear()
+    games[chatid].clear()
     update.message.reply_text("RESET COMPLETE")
     print (botsnumber)
 
