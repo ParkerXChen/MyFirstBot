@@ -20,7 +20,6 @@ def guessnumber(update, context):
     
     if not update.message.from_user.id in games[chatid]:
         games[chatid][update.message.from_user.id] = 0
-
     if len(context.args) == 0:
         update.message.reply_text(showhelp())
     else:
@@ -47,10 +46,10 @@ def reset(update, context):
     update.message.reply_text("RESET COMPLETE")
     print (botsnumber)
 
-def add_handler(dp:Dispatcher):
+def add_guesshandler(dp:Dispatcher):
     guessnumber_handler = CommandHandler('guessnumber', guessnumber)
     dp.add_handler(guessnumber_handler)
 
-def add_handler2(dp:Dispatcher):
+def add_resethandler(dp:Dispatcher):
     reset_handler = CommandHandler('reset', reset)
     dp.add_handler(reset_handler)

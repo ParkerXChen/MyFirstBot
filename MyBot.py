@@ -25,8 +25,8 @@ dispatcher = updater.dispatcher
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 
-guess.add_handler(dispatcher)
+guess.add_guesshandler(dispatcher)
 
-guess.add_handler2(dispatcher)
+guess.add_resethandler(dispatcher)
 
 updater.start_polling()
