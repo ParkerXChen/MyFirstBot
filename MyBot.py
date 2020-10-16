@@ -3,6 +3,7 @@ from telegram.ext import CommandHandler
 from telegram.ext import Dispatcher,Updater
 import os
 import guess
+import food
 
 def start(update, context):
     update.message.reply_text("HAHA WE STARTED")
@@ -28,5 +29,13 @@ dispatcher.add_handler(start_handler)
 guess.add_guesshandler(dispatcher)
 
 guess.add_resethandler(dispatcher)
+
+food.add_workhandler(dispatcher)
+
+food.add_talkhandler(dispatcher)
+
+food.add_eatcheesehandler(dispatcher)
+
+food.add_buycheesehandler(dispatcher)
 
 updater.start_polling()
