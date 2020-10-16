@@ -38,9 +38,12 @@ def guessnumber(update, context):
 def reset(update, context):
     global games
     chatid = update.message.chat.id     
-    games[chatid].clear()
-    games[chatid]['botsnumber'] = random.randint (1,99)
-    update.message.reply_text("RESET COMPLETE")
+    if (chatid) in games:
+        games[chatid].clear()
+        games[chatid]['botsnumber'] = random.randint (1,99)
+        update.message.reply_text("RESET COMPLETE")
+    else:
+        update.message.reply_text("Oops! No number to reset!")
 
 def add_guesshandler(dp:Dispatcher):
     guessnumber_handler = CommandHandler('guessnumber', guessnumber)
