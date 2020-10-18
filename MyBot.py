@@ -33,5 +33,4 @@ food.add_talkhandler(dispatcher)
 food.add_eatcheesehandler(dispatcher)
 
 food.add_buycheesehandler(dispatcher)
-
 updater.start_polling()

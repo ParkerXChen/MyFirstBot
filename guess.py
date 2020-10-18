@@ -1,4 +1,4 @@
-from telegram.ext import Dispatcher,Updater,CommandHandler
+from telegram.ext import Dispatcher,Updater,CommandHandler,CallbackQueryHandler
 from telegram import InlineKeyboardMarkup,InlineKeyboardButton
 import random
 
@@ -42,6 +42,10 @@ def guessnumber(update, context):
                 update.message.reply_text("Nope! Too big! Try again! Number of tries: %s" %(games[chatid][update.message.from_user.id]),reply_markup=kb)
         else: update.message.reply_text("Is that even a number?")
 
+def buttonCallback(update, context):
+    query = update.callback_query
+    
+    query.answer("%s Pressed %s"%(update.effective_user.first_name,query.data))
 
 def reset(update, context):
     global kb
@@ -54,10 +58,15 @@ def reset(update, context):
     else:
         update.message.reply_text("Oops! No number to reset!")
 
-def add_guesshandler(dp:Dispatcher):
-    guessnumber_handler = CommandHandler('guessnumber', guessnumber)
-    dp.add_handler(guessnumber_handler)
+# def add_guesshandler(dp:Dispatcher):
+#     guessnumber_handler = CommandHandler('guessnumber', guessnumber)
+#     dp.add_handler(guessnumber_handler)
 
 def add_resethandler(dp:Dispatcher):
     reset_handler = CommandHandler('reset', reset)
-    dp.add_handler(reset_handler)
+    dp.add_handler(reset_handler) 
+
+def add_guesshandler(dp:Dispatcher):
+    guessnumber_handler = CommandHandler('guessnumber', guessnumber)
+    dp.add_handler(guessnumber_handler)
+    dp.add_handler(CallbackQueryHandler(buttonCallback)) 
