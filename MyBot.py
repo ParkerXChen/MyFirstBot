@@ -4,6 +4,7 @@ from telegram.ext import Dispatcher,Updater
 import os
 import guess
 import food
+import guessinggame
 
 def start(update, context):
     update.message.reply_text("HAHA WE STARTED")
@@ -33,4 +34,7 @@ food.add_talkhandler(dispatcher)
 food.add_eatcheesehandler(dispatcher)
 
 food.add_buycheesehandler(dispatcher)
+
+guessinggame.add_playgamehandler(dispatcher)
+
 updater.start_polling()

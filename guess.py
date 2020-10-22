@@ -42,11 +42,6 @@ def guessnumber(update, context):
                 update.message.reply_text("Nope! Too big! Try again! Number of tries: %s" %(games[chatid][update.message.from_user.id]),reply_markup=kb)
         else: update.message.reply_text("Is that even a number?")
 
-def buttonCallback(update, context):
-    query = update.callback_query
-    
-    query.answer("%s Pressed %s"%(update.effective_user.first_name,query.data))
-
 def reset(update, context):
     global kb
     global games
@@ -69,4 +64,3 @@ def add_resethandler(dp:Dispatcher):
 def add_guesshandler(dp:Dispatcher):
     guessnumber_handler = CommandHandler('guessnumber', guessnumber)
     dp.add_handler(guessnumber_handler)
-    dp.add_handler(CallbackQueryHandler(buttonCallback)) 
