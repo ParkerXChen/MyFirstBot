@@ -1,0 +1,31 @@
+{
+  "update_id": 502612026,
+  "message": {
+    "message_id": 1110,
+    "date": 1603412833,
+    "chat": {
+      "id": -379431049,
+      "type": "group",
+      "title": "Parker’s BotTest",
+      "all_members_are_administrators": True
+    },
+    "text": "/playgame@Gu3ssingBot",
+    "entities": [{ "type": "bot_command", "offset": 0, "length": 21 }],
+    "caption_entities": [],
+    "photo": [],
+    "new_chat_members": [],
+    "new_chat_photo": [],
+    "delete_chat_photo": False,
+    "group_chat_created": False,
+    "supergroup_chat_created": False,
+    "channel_chat_created": False,
+    "from": {
+      "id": 47384057,
+      "first_name": "Nan",
+      "is_bot": False,
+      "last_name": "Chen",
+      "username": "gokeeper",
+      "language_code": "en"
+    }
+  }
+}

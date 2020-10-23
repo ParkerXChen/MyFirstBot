@@ -53,10 +53,6 @@ def reset(update, context):
     else:
         update.message.reply_text("Oops! No number to reset!")
 
-# def add_guesshandler(dp:Dispatcher):
-#     guessnumber_handler = CommandHandler('guessnumber', guessnumber)
-#     dp.add_handler(guessnumber_handler)
-
 def add_resethandler(dp:Dispatcher):
     reset_handler = CommandHandler('reset', reset)
     dp.add_handler(reset_handler) 
