@@ -1,64 +1,107 @@
-from telegram.ext import Dispatcher,Updater,CommandHandler,CallbackQueryHandler
+from telegram.ext import Dispatcher,CommandHandler,CallbackQueryHandler
 from telegram import InlineKeyboardMarkup,InlineKeyboardButton
 import random
+from datetime import datetime,timedelta
+
+timein5sec = 0
+
+smallButton = InlineKeyboardButton('Small',callback_data='small')
+bigButton = InlineKeyboardButton('Big',callback_data='big')
+sumButton = InlineKeyboardButton('Reveal',callback_data='reveal')
+joinButton = InlineKeyboardButton('Join',callback_data='join')
+startButton = InlineKeyboardButton('Start',callback_data='start')
+
+gamekb = InlineKeyboardMarkup([[bigButton,smallButton,sumButton]])
+
+startkb = InlineKeyboardMarkup([[joinButton,startButton]])
 
 
-#Buttons:
-larger = InlineKeyboardButton('⬆️', callback_data='⬆️')
-smaller = InlineKeyboardButton('⬇️', callback_data='⬇️')
-
-kb = InlineKeyboardMarkup([[larger,smaller]])
-
-#Variables:
-answer = ""
-peopleinthegame = []
-
-number1 = random.randint(1,6)
-number2 = random.randint (1,6)
-number3 = random.randint (1,6)
-sumofthenumbers = number1 + number2 + number3
-message = 'I have generated three numbers from 1 - 6. \n \n If you think the sum of all three numbers is 10 or above, press the ⬆️ button.\n If you think the sum of all three numbers is 10 or below, press the ⬇️ button.\n \n If you guess right, you win a prize!\n\nThe people who are playing are:\n %s ' %(peopleinthegame) 
+secondspassed = 0 
 games = {}
 
-def sendmessage(update, context):
-    global peopleinthegame
-    global kb
-    global message
+def getNumber():
+    endNumber = 0
+    msg = ""
+    for _i in range(3):
+        rnumber = random.randint(1,6)
+        endNumber += rnumber
+        msg += "%s "%rnumber
+    msg += "=%s" % endNumber
+    # [11,"1 9 1 = 11"]
+    return [endNumber,msg]
 
-    context.bot.send_message(chat_id=update.effective_chat.id, text= (message),reply_markup=kb)
+def sumGame():
+    number,msg = getNumber()
+    game = 's'
+    if number >= 11:
+        game = 'b'
+    for u in games.keys():
+        if games[u] == '':
+            games[u] = 'You did not answer...'
+        elif games[u] == game:
+            games[u] = 'Won!'
+        else:
+            games[u] = 'Lost!'
+        # print (games[u])
+    msg += "\n%s"%getUsers()
+    return msg 
 
-def playgame(update, context):
-    global answer
+def getUsers():
+    msg = ""
+    for u in games.keys():
+        msg += "%s:%s\n"%(u,games[u])
+    return msg
 
-    if sumofthenumbers < 10:
-        answer = "⬇️"
-    else:
-        answer = "⬆️"
+def guess(update, context):
+    global timein5sec
+    timein5sec = datetime.now()+timedelta(seconds=5)
+    update.message.reply_text(
+    '''
+        Press Join. Then press start. Then press Big or Small. Then press reveal.
+    .''',reply_markup=startkb)
 
-    sendmessage(update, context)
-    print (answer)
 def buttonCallback(update, context):
-    global answer
-    global sumofthenumbers
-    global message
-    query = update.callback_query
-
-    first_name = update.effective_user.first_name
-
-    if not first_name in peopleinthegame:
-        peopleinthegame.append(first_name)
-
-    if sumofthenumbers < 10:
-        answer = "⬇️"
-    else:
-        answer = "⬆️"
-
-    if query.data == answer:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="You got it correct!")
-    else:
-        context.bot.send_message(chat_id=update.effective_chat.id, text="You got it wrong!")
+    global games,timein5sec
+    query = update.callback_query 
+    if query.data == 'join':
+        query.answer("You have joined the game.")
+        games[update.effective_user.first_name] = ""
+        query.edit_message_text(getUsers(),reply_markup=startkb)
+        return
+    elif query.data == 'start':
+        timenow=datetime.now()        
+        print(f"start now:{timenow} {timein5sec}")
+        if datetime.now() >= timein5sec:
+            timein5sec = timenow + timedelta(seconds=5)
+            query.answer("Round started!")
+            query.edit_message_text(getUsers(),reply_markup=gamekb)
+        else: 
+            query.answer("You cannot start yet! It has been less than 5 seconds since you joined!",show_alert=True)
+    elif query.data == 'big':
+        if games == {}:
+            return
+        query.answer("You chose big!")
+        games[update.effective_user.first_name] = "b"
+        query.edit_message_text(getUsers(),reply_markup=gamekb)
+    elif query.data == 'small':
+        if games == {}:
+            return
+        query.answer("You chose small!")
+        games[update.effective_user.first_name] = "s"
+        query.edit_message_text(getUsers(),reply_markup=gamekb)
+    elif query.data == 'reveal':
+        timenow = datetime.now()
+        print(f"reveal now:{timenow} {timein5sec}")
+        if timenow >= timein5sec:
+            if games == {}:
+                return
+            query.answer("Reveal has begun!")
+            query.edit_message_text(sumGame())
+        else:
+            query.answer("You cannot reveal yet! It has been less than 5 seconds since the game started!",show_alert=True)
+        
 
 def add_playgamehandler(dp:Dispatcher):
-    playgame_handler = CommandHandler('playgame', playgame)
-    dp.add_handler(playgame_handler)
+    guess_handler = CommandHandler('playgame', guess)
+    dp.add_handler(guess_handler)
     dp.add_handler(CallbackQueryHandler(buttonCallback))
