@@ -3,21 +3,43 @@ from telegram import InlineKeyboardMarkup,InlineKeyboardButton
 import random
 from datetime import datetime,timedelta
 
-timein5sec = 0
-
-smallButton = InlineKeyboardButton('Small',callback_data='small')
-bigButton = InlineKeyboardButton('Big',callback_data='big')
-sumButton = InlineKeyboardButton('Reveal',callback_data='reveal')
-joinButton = InlineKeyboardButton('Join',callback_data='join')
-startButton = InlineKeyboardButton('Start',callback_data='start')
+smallButton = InlineKeyboardButton('小',callback_data='small')
+bigButton = InlineKeyboardButton('大',callback_data='big')
+sumButton = InlineKeyboardButton('结算',callback_data='sum')
 
 gamekb = InlineKeyboardMarkup([[bigButton,smallButton,sumButton]])
 
+joinButton = InlineKeyboardButton('加入',callback_data='join')
+startButton = InlineKeyboardButton('开始',callback_data='start')
+
 startkb = InlineKeyboardMarkup([[joinButton,startButton]])
 
+timer = 0
 
-secondspassed = 0 
+# { 
+#  chatid: {
+#    h:"", 
+#    p:{first_name:d, first_name:x}
+# }
 games = {}
+
+def check_chatid(chatid):
+    if not chatid in games.keys():
+        games[chatid]={
+            "h":"",
+            "p":{}
+            }
+
+def getHist(chatid):
+    return games[chatid]['h']
+
+def setHist(chatid,res):
+    h = games[chatid]['h']
+    if len(h) > 10:
+        h = h[:9] + res
+    else:
+        h += res
+    games[chatid]['h'] = h
 
 def getNumber():
     endNumber = 0
@@ -27,81 +49,84 @@ def getNumber():
         endNumber += rnumber
         msg += "%s "%rnumber
     msg += "=%s" % endNumber
-    # [11,"1 9 1 = 11"]
     return [endNumber,msg]
 
-def sumGame():
+def sumGame(chatid):
     number,msg = getNumber()
-    game = 's'
+    users = games[chatid]["p"]
+    game = 'x'
     if number >= 11:
-        game = 'b'
-    for u in games.keys():
-        if games[u] == '':
-            games[u] = 'You did not answer...'
-        elif games[u] == game:
-            games[u] = 'Won!'
+        game = 'd'
+    setHist(chatid,game)
+    for u in users.keys():
+        if users[u] == '':
+            users[u] = '没选'
+        elif users[u] == game:
+            users[u] = 'Yes!'
         else:
-            games[u] = 'Lost!'
-        # print (games[u])
-    msg += "\n%s"%getUsers()
+            users[u] = 'Noo!'
+    msg += "\n%s"%getUsers(users)
     return msg 
 
-def getUsers():
+def getUsers(users):
     msg = ""
-    for u in games.keys():
-        msg += "%s:%s\n"%(u,games[u])
+    for u in users.keys():
+        msg += "%s:%s\n"%(u,users[u])
     return msg
 
 def guess(update, context):
-    global timein5sec
-    timein5sec = datetime.now()+timedelta(seconds=5)
-    update.message.reply_text(
-    '''
-        Press Join. Then press start. Then press Big or Small. Then press reveal.
-    .''',reply_markup=startkb)
+    global timer
+    chatid = update.effective_chat.id
+    check_chatid(chatid)
+    timer = datetime.now() + timedelta(seconds=5)
+    update.message.reply_text("请选择大或小",reply_markup=startkb)
 
 def buttonCallback(update, context):
-    global games,timein5sec
+    global games,timer
     query = update.callback_query 
+    chatid = update.effective_chat.id
+    check_chatid(chatid)
+    users = games[chatid]["p"]
+    print(f"s:{games}")
+    msg = getUsers(users) + "\n\n" + getHist(chatid)
     if query.data == 'join':
-        query.answer("You have joined the game.")
-        games[update.effective_user.first_name] = ""
-        query.edit_message_text(getUsers(),reply_markup=startkb)
+        query.answer("加入游戏")
+        users[update.effective_user.first_name] = ""
+        query.edit_message_text(msg,reply_markup=startkb)
         return
     elif query.data == 'start':
-        timenow=datetime.now()        
-        print(f"start now:{timenow} {timein5sec}")
-        if datetime.now() >= timein5sec:
-            timein5sec = timenow + timedelta(seconds=5)
-            query.answer("Round started!")
-            query.edit_message_text(getUsers(),reply_markup=gamekb)
-        else: 
-            query.answer("You cannot start yet! It has been less than 5 seconds since you joined!",show_alert=True)
-    elif query.data == 'big':
-        if games == {}:
-            return
-        query.answer("You chose big!")
-        games[update.effective_user.first_name] = "b"
-        query.edit_message_text(getUsers(),reply_markup=gamekb)
-    elif query.data == 'small':
-        if games == {}:
-            return
-        query.answer("You chose small!")
-        games[update.effective_user.first_name] = "s"
-        query.edit_message_text(getUsers(),reply_markup=gamekb)
-    elif query.data == 'reveal':
         timenow = datetime.now()
-        print(f"reveal now:{timenow} {timein5sec}")
-        if timenow >= timein5sec:
-            if games == {}:
-                return
-            query.answer("Reveal has begun!")
-            query.edit_message_text(sumGame())
+        if timenow > timer:
+            query.answer("开始")
+            query.edit_message_text(msg,reply_markup=gamekb)
+            timer = datetime.now()+timedelta(seconds=5)
         else:
-            query.answer("You cannot reveal yet! It has been less than 5 seconds since the game started!",show_alert=True)
-        
+            query.answer("冷静！还没到五秒！",show_alert=True)
+    elif query.data == 'big':
+        if users == {}:
+            return
+        query.answer("你选择了大")
+        users[update.effective_user.first_name] = "d"
+        query.edit_message_text(msg,reply_markup=gamekb)
+    elif query.data == 'small':
+        if users == {}:
+            return
+        query.answer("你选择了小")
+        users[update.effective_user.first_name] = "x"
+        query.edit_message_text(msg,reply_markup=gamekb)
+    elif query.data == 'sum':
+        timenow = datetime.now()
+        if timenow > timer:
+            query.answer("结算开始")
+            msg = sumGame(chatid)+ "\n\n" +getHist(chatid)
+            query.edit_message_text(msg)
+            users = {}
+        else:
+            query.answer("冷静！还没到五秒！",show_alert=True)
+    games[chatid]["p"] = users
+    print(f"e:{games}")
 
-def add_playgamehandler(dp:Dispatcher):
-    guess_handler = CommandHandler('playgame', guess)
+def add_handler(dp:Dispatcher):
+    guess_handler = CommandHandler('guess', guess)
     dp.add_handler(guess_handler)
     dp.add_handler(CallbackQueryHandler(buttonCallback))

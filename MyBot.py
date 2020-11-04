@@ -35,6 +35,6 @@ food.add_eatcheesehandler(dispatcher)
 
 food.add_buycheesehandler(dispatcher)
 
-guessinggame.add_playgamehandler(dispatcher)
+guessinggame.add_handler(dispatcher)
 
 updater.start_polling()
