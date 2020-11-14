@@ -1,15 +1,6 @@
 import random
 from datetime import datetime,timedelta
-# {
-#     chatid: {
-#         uid :{
-#             'name': first_name,
-#             'coins': 123,
-#             'count': 0,
-#             'dailytime' : time
-#         }
-#     }
-# }
+from telegram.ext import Dispatcher,CommandHandler
 
 coins = {}
 
@@ -40,10 +31,19 @@ def add_count(chatid,user):
 def daily(chatid,user):
     check_user(chatid,user)
     uid = user.id
-    if datetime.now > coins[chatid][uid]['dailytime']:
+    if datetime.now() > coins[chatid][uid]['dailytime']:
         c = random.randint(1,100)
         coins[chatid][uid]['coins'] += c
-        coins[chatid][uid]['dailytime'] = datetime.now() + timedelta
+        coins[chatid][uid]['dailytime'] = datetime.now() + timedelta(minutes=5)
         return c
     else:
         return 0
+
+def get_coins(update, context):
+    chatid = update.effective_chat.id
+    user = update.effective_user
+    check_user(chatid,user)
+    update.message.reply_text(f"{show_user(chatid,user)}")
+
+def add_handler(dp:Dispatcher):
+    dp.add_handler(CommandHandler('coins', get_coins))
