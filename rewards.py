@@ -1,11 +1,13 @@
 from telegram.ext import Dispatcher,CommandHandler
-import random
+from telegram import BotCommand
+
 
 def rewards(update, context):
-    reward = random.randint (1,200)
-    
-    update.message.reply_text("NICE! You get %s EXP!" %(reward))
+    update.message.reply_text("来啦来啦")
 
 def add_handler(dp:Dispatcher):
     start_handler = CommandHandler('rewards', rewards)
     dp.add_handler(start_handler)
+
+def get_command():
+    return [BotCommand('rewards','其实这里什么都没写')]

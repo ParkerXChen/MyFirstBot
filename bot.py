@@ -1,9 +1,8 @@
-from telegram.ext import Updater
-from telegram.ext import CommandHandler
-from telegram.ext import MessageHandler, Filters
+from telegram.ext import Updater,MessageHandler, Filters,CommandHandler
+from telegram import BotCommand
 import os
 import rewards
-import guesscmd
+import guesscmd,coins
 
 def start(update, context):
     print(update)
@@ -30,6 +29,11 @@ dispatcher = updater.dispatcher
 
 rewards.add_handler(dispatcher)
 guesscmd.add_handler(dispatcher)
+coins.add_handler(dispatcher)
+
+commands = rewards.get_command() + guesscmd.get_command() +  coins.get_command()
+bot = updater.bot
+bot.set_my_commands(commands)
 
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
