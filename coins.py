@@ -74,10 +74,15 @@ def get_coins(update, context):
     user = update.effective_user
     check_user(chatid,user)
     # update.message.reply_text(f"{show_user(chatid,user)}")
-    update.message.reply_animation('https://5b0988e595225.cdn.sohucs.com/images/20190320/8fd8429c05784afebc378c04f1ac8005.gif',caption=f"{show_user(chatid,user)}")
+    update.message.reply_animation(animation=open(f"{config.RUN_PATH}/imgs/coins.gif","rb") ,caption=f"{show_user(chatid,user)}")
+    # update.message.reply_animation('https://5b0988e595225.cdn.sohucs.com/images/20190320/8fd8429c05784afebc378c04f1ac8005.gif',caption=f"{show_user(chatid,user)}")
 
 def add_handler(dp:Dispatcher):
     dp.add_handler(CommandHandler('coins', get_coins))
 
 def get_command():
     return [BotCommand('coins','看看你的金币有没有丢失')]
+
+
+if __name__ == '__main__':
+    pass
