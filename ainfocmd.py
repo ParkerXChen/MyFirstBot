@@ -3,6 +3,7 @@ from telegram import BotCommand
 from json import dumps
 
 def ainfo(update,context):
+    print (update)
     msg =  f'File ID: {update.message.reply_to_message.document.file_id},\nFile Unique ID: {update.message.reply_to_message.document.file_unique_id},\nFile Type: {update.message.reply_to_message.document.mime_type},\nFile Size: {update.message.reply_to_message.document.file_size} '
     
     update.message.reply_text(msg)

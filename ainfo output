@@ -1,0 +1,98 @@
+{
+  "update_id": 487466473,
+  "message": {
+    "message_id": 346,
+    "date": 1609599609,
+    "chat": {
+      "id": 611516537,
+      "type": "private",
+      "username": "ParkerChen",
+      "first_name": "Parker",
+      "last_name": "Chen"
+    },
+    "reply_to_message": {
+      "message_id": 332,
+      "date": 1609471343,
+      "chat": {
+        "id": 611516537,
+        "type": "private",
+        "username": "ParkerChen",
+        "first_name": "Parker",
+        "last_name": "Chen"
+      },
+      "forward_from": {
+        "id": 1360440667,
+        "first_name": "Noah",
+        "is_bot": False,
+        "username": "SSnipro"
+      },
+      "forward_date": 1608996872,
+      "entities": [],
+      "caption_entities": [],
+      "document": {
+        "file_id": "CgACAgEAAxkBAAIBTF_winlQaHY6vm7paJ_K7bplRyd9AALwAANZ9ThHMd3Gtp6RL9ceBA",
+        "file_unique_id": "AgAD8AADWfU4Rw",
+        "thumb": {
+          "file_id": "AAMCAQADGQEAAgFMX_CKeVBodjq-bulon8rtumVHJ30AAvAAA1n1OEcx3ca2npEv199AE0sXAAMBAAdtAANtdAACHgQ",
+          "file_unique_id": "AQAD30ATSxcAA210AAI",
+          "width": 220,
+          "height": 221,
+          "file_size": 12535
+        },
+        "file_name": "dino.mp4",
+        "mime_type": "video/mp4",
+        "file_size": 314930
+      },
+      "photo": [],
+      "new_chat_members": [],
+      "new_chat_photo": [],
+      "delete_chat_photo": False,
+      "group_chat_created": False,
+      "supergroup_chat_created": False,
+      "channel_chat_created": False,
+      "animation": {
+        "file_id": "CgACAgEAAxkBAAIBTF_winlQaHY6vm7paJ_K7bplRyd9AALwAANZ9ThHMd3Gtp6RL9ceBA",
+        "file_unique_id": "AgAD8AADWfU4Rw",
+        "width": 220,
+        "height": 221,
+        "duration": 5,
+        "thumb": {
+          "file_id": "AAMCAQADGQEAAgFMX_CKeVBodjq-bulon8rtumVHJ30AAvAAA1n1OEcx3ca2npEv199AE0sXAAMBAAdtAANtdAACHgQ",
+          "file_unique_id": "AQAD30ATSxcAA210AAI",
+          "width": 220,
+          "height": 221,
+          "file_size": 12535
+        },
+        "file_name": "dino.mp4",
+        "mime_type": "video/mp4",
+        "file_size": 314930
+      },
+      "from": {
+        "id": 611516537,
+        "first_name": "Parker",
+        "is_bot": False,
+        "last_name": "Chen",
+        "username": "ParkerChen",
+        "language_code": "en"
+      }
+    },
+    "text": "/ainfo",
+    "entities": [{ "type": "bot_command", "offset": 0, "length": 6 }],
+    "caption_entities": [],
+    "photo": [],
+    "new_chat_members": [],
+    "new_chat_photo": [],
+    "delete_chat_photo": False,
+    "group_chat_created": False,
+    "supergroup_chat_created": False,
+    "channel_chat_created": False,
+    "from": {
+      "id": 611516537,
+      "first_name": "Parker",
+      "is_bot": False,
+      "last_name": "Chen",
+      "username": "ParkerChen",
+      "language_code": "en"
+    }
+  }
+}
