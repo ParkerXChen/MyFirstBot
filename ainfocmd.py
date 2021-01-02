@@ -4,7 +4,7 @@ from json import dumps
 
 def ainfo(update,context):
     print (update)
-    msg =  f'File ID: {update.message.reply_to_message.document.file_id},\nFile Unique ID: {update.message.reply_to_message.document.file_unique_id},\nFile Type: {update.message.reply_to_message.document.mime_type},\nFile Size: {update.message.reply_to_message.document.file_size} '
+    msg =  f'File Size : {update.message.reply_to_message.animation.file_size},\nFile Name: {update.message.reply_to_message.animation.file_name},\nDuration: {update.message.reply_to_message.animation.duration},\nWidth: {update.message.reply_to_message.animation.width},\nHeight: {update.message.reply_to_message.animation.height}'
     
     update.message.reply_text(msg)
 
@@ -12,4 +12,4 @@ def add_ainfohandler(dp:Dispatcher):
     dp.add_handler(CommandHandler('ainfo', ainfo))
 
 def get_command():
-    return [BotCommand('ainfo','看看你的金币有没有丢失')]
+    return [BotCommand('ainfo','看看你的金币有没有丢失')] 
