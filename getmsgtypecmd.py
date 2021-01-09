@@ -2,12 +2,18 @@ from telegram.ext import Dispatcher,CommandHandler,CallbackQueryHandler
 from telegram import BotCommand
 from json import dumps
 
+def getobjinfo (msgtype,msgobj):
+    rmsg = ""
+    for i in msg_type[msgtype]:
+        rmsg += str(f'{i} = {msgobj.__dict__[i]},\n\n')
+    return rmsg
+
 def getmsgtype(update,context):
     msg = ''
     msg_type = {
         "video":["file_id","file_unique_id","width","height","duration"],
         "photo":["file_id","file_unique_id","width","height","file_size"],
-        "audio":["file_id","file_unique_id","width","height","file_size"],
+        "audio":["file_id","file_unique_id","mime_type","file_size"],
         "animation":["file_id","file_unique_id","width","height","duration"],
         "sticker":["file_id","file_unique_id","width","height","is_animated"],
         "videomsg":["file_id","file_unique_id","length","duration"],
@@ -18,18 +24,15 @@ def getmsgtype(update,context):
         if update.message.reply_to_message.video:
             video = update.message.reply_to_message.video
             msg = 'That\'s a video.\n\n'
-            for i in msg_type['video']:
-                msg += str(f'{i} = {video.__dict__[i]},\n\n')
+            msg = getobjinfo('video',video)
         elif update.message.reply_to_message.photo:
             photo = update.message.reply_to_message.photo[2]
             msg = 'That\'s a photo.\n\n'
-            for i in msg_type['photo']:
-                msg += str(f'{i} = {photo.__dict__[i]},\n\n')
+            msg = getobjinfo('photo',photo)
         elif update.message.reply_to_message.audio:
             audio = update.message.reply_to_message.audio
             msg = 'That\'s an audio message.\n\n'
-            for i in msg_type['audio']:
-                msg += str(f'{i} = {audio.__dict__[i]},\n\n')
+            msg = getobjinfo('audio',audio)
         elif update.message.reply_to_message.animation:
             animation = update.message.reply_to_message.animation
             msg = 'That\'s an animation.\n\n'
