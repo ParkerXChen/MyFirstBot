@@ -4,7 +4,7 @@ from json import dumps
 
 def ainfo(update,context):
     print (update)
-    msg =  f'File Size : {update.message.reply_to_message.animation.file_size},\nFile Name: {update.message.reply_to_message.animation.file_name},\nDuration: {update.message.reply_to_message.animation.duration},\nWidth: {update.message.reply_to_message.animation.width},\nHeight: {update.message.reply_to_message.animation.height}'
+    msg =  f'File ID: {update.message.reply_to_message.file_id}File Size : {update.message.reply_to_message.animation.file_size},\nFile Name: {update.message.reply_to_message.animation.file_name},\nDuration: {update.message.reply_to_message.animation.duration},\nWidth: {update.message.reply_to_message.animation.width},\nHeight: {update.message.reply_to_message.animation.height}'
     
     update.message.reply_text(msg)
 
