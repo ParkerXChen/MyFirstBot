@@ -2,22 +2,17 @@ from telegram.ext import Updater,MessageHandler, Filters,CommandHandler
 from telegram import BotCommand
 import os
 import rewards
-import guesscmd,coins,votecmd, pinfocmd, ainfocmd, getmsgtypecmd
+import guesscmd,coins,votecmd, pinfocmd, ainfocmd, getmsgtypecmd, youtubemusic
 
 def start(update, context):
     print(update)
-    msg = "%s你好，你在%s说话"%(
-        update.message.from_user.first_name,
-        update.message.chat.type
-    )
+    msg = "aaa"
     context.bot.send_message(chat_id=update.effective_chat.id, text=msg)
 
 def read_file_as_str(file_path):
-    # 判断路径文件存在
     if not os.path.isfile(file_path):
         raise TypeError(file_path + " does not exist")
 
-    # 读取文件内容到all_the_text
     all_the_text = open(file_path).read()
     # print type(all_the_text)
     return all_the_text
@@ -34,6 +29,7 @@ votecmd.add_handler(dispatcher)
 pinfocmd.add_pinfohandler(dispatcher)
 ainfocmd.add_ainfohandler(dispatcher)
 getmsgtypecmd.add_getmsgtypehandler(dispatcher)
+youtubemusic.add_ytmusichandler(dispatcher)
 
 commands = rewards.get_command() + guesscmd.get_command() +  coins.get_command() + votecmd.get_command() + pinfocmd.get_command() + ainfocmd.get_command() + getmsgtypecmd.get_command()
 bot = updater.bot
