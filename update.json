@@ -1,1 +1,30 @@
-{'update_id': 487466652, 'message': {'message_id': 32005, 'date': 1610233114, 'chat': {'id': -1001366387264, 'type': 'supergroup', 'title': 'BotTests'}, 'reply_to_message': {'message_id': 32004, 'date': 1610233111, 'chat': {'id': -1001366387264, 'type': 'supergroup', 'title': 'BotTests'}, 'forward_from_chat': {'id': -1001405504733, 'type': 'channel', 'title': '西岛影院'}, 'forward_date': 1609007537, 'entities': [], 'caption_entities': [], 'photo': [], 'video': {'file_id': 'BAACAgUAAx0CUXFqQAACfQRf-jUbHT0v7Ga72Ivbh3DfpnoDHgACNwIAAvwKOFdudMhu8KT95B4E', 'file_unique_id': 'AgADNwIAAvwKOFc', 'width': 1366, 'height': 720, 'duration': 9065, 'thumb': {'file_id': 'AAMCBQADHQJRcWpAAAJ9BF_6NRsdPS_sZrvYi9uHcN-megMeAAI3AgAC_Ao4V250yG7wpP3kQLd3cHQAAwEAB20AA-kdAAIeBA', 'file_unique_id': 'AQADQLd3cHQAA-kdAAI', 'width': 320, 'height': 168, 'file_size': 2168}, 'file_name': 'Wonder.Woman.1984.2020.mp4', 'mime_type': 'video/mp4', 'file_size': 1936337019}, 'caption': '神奇女侠1984 Wonder Woman 1984 (2020)', 'new_chat_members': [], 'new_chat_photo': [], 'delete_chat_photo': False, 'group_chat_created': False, 'supergroup_chat_created': False, 'channel_chat_created': False, 'forward_from_message_id': 331, 'from': {'id': 611516537, 'first_name': 'Parker', 'is_bot': False, 'last_name': 'Chen', 'username': 'ParkerChen', 'language_code': 'en'}}, 'text': '/getmsgtype@ParkersEpicBot', 'entities': [{'type': 'bot_command', 'offset': 0, 'length': 26}], 'caption_entities': [], 'photo': [], 'new_chat_members': [], 'new_chat_photo': [], 'delete_chat_photo': False, 'group_chat_created': False, 'supergroup_chat_created': False, 'channel_chat_created': False, 'from': {'id': 611516537, 'first_name': 'Parker', 'is_bot': False, 'last_name': 'Chen', 'username': 'ParkerChen', 'language_code': 'en'}}}
+{
+  "message_id": 34461,
+  "date": 1610575772,
+  "chat": { "id": -1001366387264, "type": "supergroup", "title": "BotTests" },
+  "entities": [],
+  "caption_entities": [],
+  "photo": [
+    {
+      "file_id": "AgACAgEAAx0CUXFqQAAChp1f_2_F3s44xa9n1nMtBHxi6SpSNAACGKkxG27zAAFEyq4UaJ_RF3T4bCdMFwADAQADAgADbQADxAMAAh4E",
+      "file_unique_id": "AQAD-GwnTBcAA8QDAAI",
+      "width": 276,
+      "height": 183,
+      "file_size": 12630
+    }
+  ],
+  "new_chat_members": [],
+  "new_chat_photo": [],
+  "delete_chat_photo": false,
+  "group_chat_created": false,
+  "supergroup_chat_created": false,
+  "channel_chat_created": false,
+  "from": {
+    "id": 611516537,
+    "first_name": "Parker",
+    "is_bot": false,
+    "last_name": "Chen",
+    "username": "ParkerChen",
+    "language_code": "en"
+  }
+}
