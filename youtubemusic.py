@@ -1,24 +1,26 @@
 from telegram.ext import Dispatcher,CommandHandler,CallbackQueryHandler
+from telegram import BotCommand,InputMediaAudio
 import pafy
 import os
-def ytmusic(update,context):
-    if not len(context.args) == 0:
+
+
+def youtubemusic(update,context):
+    if len(context.args) == 1:
         url = context.args[0]
-        if 'www.youtube.com' in url:
-            video = pafy.new(url)
-            print (video.length)
-            if video.length <= 6000:
-                bestaudio = video.getbestaudio(preftype="m4a")
-                audiofile = f'/tmp/{bestaudio.title}.{bestaudio.extension}'
-                bestaudio.download(audiofile)
-                update.message.reply_audio(open(audiofile, 'rb'),caption=str(video)[:-1])
-                os.remove(audiofile)
-            else:
-                update.message.reply_text('Sorry, but that video is too long for me to download and send to you. Please try a similar video that is shorter.')
-        else:
-            update.message.reply_text('Sorry, but that is not a youtube url.')
+        video = pafy.new(url)
+        bestaudio = video.getbestaudio(preftype="m4a")
+        filepath = f"/tmp/{bestaudio.title}.{bestaudio.extension}"
+        music_size = bestaudio.get_filesize()
+        if music_size > 1000*1000*10:
+            update.message.reply_text("Sorry, but that message is too big. It cannot be bigger than 10MB.")
+            return
+        bestaudio.download(filepath=filepath)
+        img = "https://cloud.addictivetips.com/wp-content/uploads/2019/03/Hiding-IP-Downloading-1-Downloading.jpg"
+        msg = update.message.reply_photo(img,caption=f"Downloading your file of {music_size/1000}KB...")
+        msg.edit_media(InputMediaAudio(open(filepath,'rb')))
+        os.remove(filepath)
     else:
-        update.message.reply_text('Sorry, but I need a URL after the command.')
+        update.message.reply_text("Sorry, but I need a URL after that.")
 
 def add_ytmusichandler(dp:Dispatcher):
-    dp.add_handler(CommandHandler('YTmusic', ytmusic))
+    dp.add_handler(CommandHandler('YTmusic', youtubemusic))
