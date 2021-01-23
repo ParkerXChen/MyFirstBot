@@ -12,7 +12,7 @@ def youtubemusic(update,context):
         filepath = f"/tmp/{bestaudio.title}.{bestaudio.extension}"
         music_size = bestaudio.get_filesize()
         if music_size > 1000*1000*10:
-            update.message.reply_text("Sorry, but that message is too big. It cannot be bigger than 10MB.")
+            update.message.reply_text("Sorry, but that audio is too big. It cannot be bigger than 10MB.")
             return
         bestaudio.download(filepath=filepath)
         img = "https://cloud.addictivetips.com/wp-content/uploads/2019/03/Hiding-IP-Downloading-1-Downloading.jpg"
@@ -24,3 +24,6 @@ def youtubemusic(update,context):
 
 def add_ytmusichandler(dp:Dispatcher):
     dp.add_handler(CommandHandler('YTmusic', youtubemusic))
+
+def get_command():
+    return [BotCommand('YTmusic','Parker made this command because it was the best')]
