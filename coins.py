@@ -27,6 +27,11 @@ def set_timezone(uid,timezone):
     coins[uid]['timezone'] = timezone
     save()
 
+def set_url(uid,url):
+    uid = str(uid)
+    coins[uid]['url'] = url
+    save()
+
     
 def save():
     config.CONFIG["coins"] = coins

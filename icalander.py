@@ -24,4 +24,4 @@ def run_repeating(job_queue):
                             days=(0, 1, 2, 3, 4, 5, 6), context=chatid)
 
 def add_geteventshandler(dp:Dispatcher):
-    dp.add_handler(CommandHandler('getevents', getevents))
+    dp.add_handler(CommandHandler('getevents', getevents)) 
