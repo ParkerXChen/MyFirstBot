@@ -2,7 +2,7 @@ from telegram.ext import Updater,MessageHandler, Filters,CommandHandler
 from telegram import BotCommand
 import os
 import rewards
-import guesscmd,coins,votecmd, pinfocmd, ainfocmd, getmsgtypecmd, youtubemusic, icalander, setcal
+import guesscmd,coins,votecmd, pinfocmd, ainfocmd, getmsgtypecmd, youtubemusic, icalander, setcal, likeanddislike
 from telegram.ext import Dispatcher, CallbackContext, CommandHandler
 
 def start(update, context):
@@ -32,6 +32,7 @@ getmsgtypecmd.add_getmsgtypehandler(dispatcher)
 youtubemusic.add_ytmusichandler(dispatcher)
 icalander.add_geteventshandler(dispatcher)
 setcal.add_geteventshandler(dispatcher)
+likeanddislike.add_handler(dispatcher)
 
 commands = rewards.get_command() + guesscmd.get_command() + votecmd.get_command() + pinfocmd.get_command() + ainfocmd.get_command() + getmsgtypecmd.get_command() 
 bot = updater.bot
